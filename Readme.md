@@ -23,3 +23,16 @@ a more verbose build run can be enabled by setting following flag:
 ```
 PACKER_LOG=1 packer build packer-confluent-kafka.json
 ```
+
+## What does it do?
+* This repo aims for source AMI's based on RH-based os (CentOS, RHEL, Amazon Linux,..).  
+* OpenJDK 1.8 is installed and set as default
+* Confluent Kafka (Community) distribution tar.gz is downloaded and extracted to ```/opt/confluent```.
+  initial commit uses Confluent v 5.2.1 , TODO: use variable instead of hardcoding version
+* The config directory ```/etc/kafka``` is linked to ```/opt/confluent/etc/kafka```
+
+## Customization
+to further config your final operating system, check [setup.sh](./scripts/setup) and adjust
+* os packages to be installed
+* start services by default
+* ...whatever you'd like to be baken into the AMI from OS point of view
