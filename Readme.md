@@ -10,6 +10,7 @@ export AWS_ACCESS_KEY_ID=<your-aws-access-key>
 export AWS_SECRET_ACCESS_KEY=<your-aws-access-secret>
 export SOURCE_AMI=<your-source-ami>
 ```
+Initial version uses ```eu-central-1``` (Frankfurt) as region. TODO: use a variable for the region as well
 
 If you e.g. want to build upon an **Amazon-Linux AMI**, you can find the latest source AMIs [here](https://aws.amazon.com/de/amazon-linux-ami/)
 or e.g. an **Amazon Linux 2** AMI: ```ami-0ebe657bc328d4e82```
