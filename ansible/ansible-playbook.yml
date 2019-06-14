@@ -1,0 +1,13 @@
+- hosts: localhost
+  connection: local
+  sudo: yes
+  
+  tasks:
+  - name: Download Apache Kafka
+    get_url:
+    url: http://packages.confluent.io/archive/5.2/confluent-community-5.2.1-2.12.tar.gz
+    dest: /tmp  
+  - name: Unpack Apache Kafka
+    unarchive:
+    src: /tmp/confluent-community-5.2.1-2.12.tar.gz
+    dest: /opt

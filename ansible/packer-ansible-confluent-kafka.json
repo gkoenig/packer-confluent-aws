@@ -1,0 +1,38 @@
+{
+    "variables": {
+        "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+        "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+        "source_ami": "{{env `SOURCE_AMI`}}",
+        "region":         "eu-central-1"
+    },
+    "builders": [
+        {
+            "access_key": "{{user `aws_access_key`}}",
+            "ami_name": "confluent-kafka-{{timestamp}}-ansible",
+            "instance_type": "t2.micro",
+            "region": "eu-central-1",
+            "secret_key": "{{user `aws_secret_key`}}",
+            "source_ami": "{{user `source_ami`}}",
+            "ssh_username": "ec2-user",
+            "type": "amazon-ebs",
+            "tags": {
+                "OS": "Amazon Linux 2",
+                "Stack": "Confluent Kafka",
+                "Stack version": "Confluent 5.2.1"
+            }
+        }
+    ],
+    "provisioners": [
+        {
+          "type": "shell",
+          "inline": [
+            "sleep 30",
+            "sudo amazon-linux-extras install ansible2 -y"
+          ]
+        },
+        {
+            "type": "ansible-local",
+            "playbook_file": "ansible-playbook.yml"
+        }
+    ]
+}
