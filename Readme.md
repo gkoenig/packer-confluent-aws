@@ -33,7 +33,7 @@ PACKER_LOG=1 packer build packer-confluent-kafka.json
 * The config directory ```/etc/kafka``` is linked to ```/opt/confluent/etc/kafka```
 
 ## Customization
-to further config your final operating system, check [setup.sh](./scripts/setup) and adjust
+to further config your final operating system, check [setup.sh](./scripts/setup.sh) and adjust
 * os packages to be installed
 * start services by default
 * ...whatever you'd like to be baken into the AMI from OS point of view
