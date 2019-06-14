@@ -1,10 +1,8 @@
 #! /bin/bash
 sudo yum update -y
-sudo yum install -y wget curl python unzip iproute selinux-policy-targeted policycoreutils-python netcat net-tools ca-certificates nmap-ncat figlet telnet lsof
+sudo yum install -y java-1.8.0-openjdk wget curl python unzip iproute selinux-policy-targeted policycoreutils-python netcat net-tools ca-certificates nmap-ncat figlet telnet lsof 
 
 # Java Open JDK 8
-sudo yum install -y java-1.8.0-openjdk
-sudo alternatives --set java /usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/java
 sudo java -version
 
 # Add file limits configs - allow to open 100,000 file descriptors
