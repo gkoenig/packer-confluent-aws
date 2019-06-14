@@ -1,7 +1,7 @@
 resource "aws_instance" "my-instance" {
     ami           = "${data.aws_ami.my-ami.id}"
     instance_type = "t2.micro"
-    key_name      = "geko"
+    key_name      = "packer-demo"
     security_groups = ["${aws_security_group.allow_ssh.name}"]
     tags = {
       Name = "Scigility-MemberDay-Demo"
@@ -36,6 +36,13 @@ resource "aws_security_group" "allow_ssh" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  egress {
+    from_port = 0
+    to_port = 65535
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  
   tags ={
     Name = "Allow SSH"
   }
