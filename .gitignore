@@ -1,1 +1,3 @@
 Readme.md
+.terraform
+terraform.tfstate*
