@@ -3,6 +3,35 @@
   sudo: yes
   
   tasks:
+  - name: ensure a list of packages is installed
+    yum:
+      name: "{{ packages }}"
+    vars:
+      packages:
+      - java-1.8.0-openjdk 
+      - wget 
+      - curl 
+      - python 
+      - unzip 
+      - iproute 
+      - selinux-policy-targeted 
+      - policycoreutils-python 
+      - netcat 
+      - net-tools 
+      - ca-certificates 
+      - nmap-ncat 
+      - figlet 
+      - telnet 
+      - lsof
+  - name: Create users Zookeeper and Kafka
+    user:
+      name: "{{ item.name }}"
+      state: present
+      shell: /bin/bash
+      groups: "{{ item.groups }}"
+    with_items:
+      - { name: 'zookeeper', groups: 'zookeeper'}
+      - { name: 'kafka', groups: 'kafka'}
   - name: Download Apache Kafka
     get_url:
     url: http://packages.confluent.io/archive/5.2/confluent-community-5.2.1-2.12.tar.gz
@@ -11,3 +40,4 @@
     unarchive:
     src: /tmp/confluent-community-5.2.1-2.12.tar.gz
     dest: /opt
+  
