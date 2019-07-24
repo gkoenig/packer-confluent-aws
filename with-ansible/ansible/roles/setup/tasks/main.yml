@@ -15,9 +15,15 @@
     - ec2-net-utils
     - iproute
     - python2-boto3
+    - awslogs
 
 - name: copy Jolokia JVM agent
   copy:
     src: jolokia-jvm-{{ JOLOKIA_VERSION }}-agent.jar
     dest: "/opt/jolokia-jvm-{{ JOLOKIA_VERSION }}-agent.jar"
     mode: 0644
+- name: set awscli conf
+  template:
+    src: "awscli.conf.j2"
+    dest: /etc/awslogs/awscli.conf
+    mode: '0644'

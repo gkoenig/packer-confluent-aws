@@ -2,3 +2,4 @@
 JOLOKIA_VERSION: 1.6.2
 JOLOKIA_KAFKA_PORT: 7777
 ZK_DATA_DIR: "/opt/zookeeper"
+AWS_REGION: "eu-central-1"
