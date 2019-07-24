@@ -71,3 +71,18 @@
     mode: 0777
     owner: zookeeper
     group: confluent
+- name: enable services
+  systemd:
+      enabled: yes
+      name: "{{ item }}"
+  with_items:
+    - { "zookeeper" }
+    - { "kafka" }
+- name: start services
+  systemd:
+      state: restarted
+      daemon_reload: yes
+      name: "{{ item }}"
+  with_items:
+    - { "zookeeper" }
+    - { "kafka" }
