@@ -10,6 +10,12 @@
     name: "telegraf"
     state: latest
 
+- name: copy Telegraf conf
+  copy:
+    src: telegraf.conf
+    dest: "/etc/telegraf/telegraf.conf"
+    mode: 0644
+
 - name: set Telegraf Jolokia config 
   template:
     src: "jolokia-kafka.conf.j2"
