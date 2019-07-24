@@ -31,8 +31,21 @@
           ]
         },
         {
-            "type": "ansible-local",
-            "playbook_file": "ansible-playbook.yml"
+            "type": "ansible",
+            "playbook_file": "./ansible/ansible-playbook.yml",
+            "user": "ec2-user"
         }
+    ],
+    "post-processors": [
+        [
+            {
+                "output": "manifest.json",
+                "strip_path": true,
+                "type": "manifest",
+                "custom_data": {
+                    "build_time": "{{ isotime }}"
+                }
+            }
+        ]
     ]
 }

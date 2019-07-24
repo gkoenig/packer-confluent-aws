@@ -1,0 +1,58 @@
+---
+- name: Create group for Zookeeper and Kafka
+  group:
+    name: "{{ item.name }}"
+    state: present
+  with_items:
+    - { name: 'confluent' }
+    - { name: 'zookeeper' }
+    - { name: 'kafka'}
+- name: Create users Zookeeper and Kafka
+  user:
+    name: "{{ item.name }}"
+    state: present
+    shell: /bin/bash
+    groups: "{{ item.groups }}"
+  with_items:
+    - { name: 'confluent', groups: 'confluent'}
+    - { name: 'zookeeper', groups: 'zookeeper,confluent'}
+    - { name: 'kafka', groups: 'kafka,confluent'}
+- name: Download Apache Kafka
+  get_url:
+    url: http://packages.confluent.io/archive/5.2/confluent-community-5.2.1-2.12.tar.gz
+    dest: /tmp  
+- name: Unpack Apache Kafka
+  unarchive:
+    src: /tmp/confluent-community-5.2.1-2.12.tar.gz
+    dest: /opt
+    mode: '755'
+    group: 'confluent'
+    owner: 'confluent'
+- name: copying zk service script
+  template:
+    src: "zookeeper.service.j2"
+    dest: /etc/systemd/system/zookeeper.service
+    owner: zookeeper
+    group: confluent
+    mode: '0644'
+- name: copying kafka service script
+  template:
+    src: "kafka.service.j2"
+    dest: /etc/systemd/system/kafka.service
+    owner: kafka
+    group: confluent
+    mode: '0644'
+- name: create link to confluent within opt
+  file:
+    src: /opt/confluent-5.2.1
+    dest: /opt/confluent
+    owner: kafka
+    group: confluent
+    state: link     
+- name: create link from etc to confluent
+  file:
+    src: /opt/confluent/etc/kafka
+    dest: /etc/kafka
+    owner: kafka
+    group: confluent
+    state: link 

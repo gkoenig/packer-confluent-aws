@@ -1,0 +1,8 @@
+---
+- hosts: all
+  connection: local
+  become: yes
+  gather_facts: true
+  roles:
+    - { role: setup }
+    - { role: kafka }

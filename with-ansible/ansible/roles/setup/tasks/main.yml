@@ -1,0 +1,13 @@
+---  
+- name: ensure a list of packages is installed
+  yum:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - java-1.8.0-openjdk 
+    - policycoreutils-python 
+    - net-tools 
+    - ca-certificates 
+    - nmap-ncat 
+    - telnet 
+    - lsof
