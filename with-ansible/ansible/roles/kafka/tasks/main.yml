@@ -64,3 +64,10 @@
     mode: 0755
     owner: zookeeper
     group: confluent
+- name: create logs dir 
+  file:
+    path: /opt/confluent/logs
+    state: directory
+    mode: 0777
+    owner: zookeeper
+    group: confluent
