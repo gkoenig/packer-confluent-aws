@@ -3,6 +3,7 @@ Description=Apache Zookeeper server
 Documentation=http://zookeeper.apache.org
 Requires=network.target remote-fs.target 
 After=network.target remote-fs.target
+
 [Service]
 Type=simple
 User=zookeeper
@@ -10,9 +11,13 @@ SyslogIdentifier=zookeeper
 Restart=always
 RestartSec=0s
 Group=zookeeper
+Environment=CONFLUENT_HOME=/opt/confluent
+Environment="ZOO_LOG_DIR=/opt/zookeeper"
+Environment="KAFKA_OPTS=-javaagent:/opt/jolokia-jvm-{{ JOLOKIA_VERSION }}-agent.jar=port=7778,host=localhost"
 ExecStart=/opt/confluent/bin/zookeeper-server-start /etc/kafka/zookeeper.properties
 ExecStop=/opt/confluent/bin/zookeeper-server-stop
 ExecReload=/opt/confluent/bin/zookeeper-server-stop && /opt/confluent/bin/zookeeper-server-start /etc/kafka/zookeeper.properties
-WorkingDirectory=/zookeeper
+WorkingDirectory=/opt/zookeeper
+
 [Install]
 WantedBy=multi-user.target

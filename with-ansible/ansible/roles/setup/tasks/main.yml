@@ -11,3 +11,13 @@
     - nmap-ncat 
     - telnet 
     - lsof
+    - python
+    - ec2-net-utils
+    - iproute
+    - python2-boto3
+
+- name: copy Jolokia JVM agent
+  copy:
+    src: jolokia-jvm-{{ JOLOKIA_VERSION }}-agent.jar
+    dest: "/opt/jolokia-jvm-{{ JOLOKIA_VERSION }}-agent.jar"
+    mode: 0644
