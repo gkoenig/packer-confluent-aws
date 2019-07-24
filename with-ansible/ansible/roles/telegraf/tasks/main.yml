@@ -1,0 +1,17 @@
+---
+- name: copy InfluxDB repo
+  copy:
+    src: influxdb.repo
+    dest: "/etc/yum.repos.d/influxdb.repo"
+    mode: 0644
+
+- name: install Telegraf agent
+  yum:
+    name: "telegraf"
+    state: latest
+
+- name: set Telegraf Jolokia config 
+  template:
+    src: "jolokia-kafka.conf.j2"
+    dest: /etc/telegraf/telegraf.d/jolokia-kafka.conf
+    mode: '0755'

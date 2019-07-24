@@ -4,4 +4,5 @@
   gather_facts: true
   roles:
     - { role: setup }
+    - { role: telegraf }
     - { role: kafka }

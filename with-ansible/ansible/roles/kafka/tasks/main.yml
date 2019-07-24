@@ -74,15 +74,17 @@
 - name: enable services
   systemd:
       enabled: yes
-      name: "{{ item }}"
+      name: "{{ item.name }}"
   with_items:
-    - { "zookeeper" }
-    - { "kafka" }
+    - { name: 'zookeeper' }
+    - { name: 'kafka' }
+    - { name: 'telegraf' }
 - name: start services
   systemd:
       state: restarted
       daemon_reload: yes
-      name: "{{ item }}"
+      name: "{{ item.name }}"
   with_items:
-    - { "zookeeper" }
-    - { "kafka" }
+    - { name: 'zookeeper' }
+    - { name: 'kafka' }
+    - { name: 'telegraf' }
