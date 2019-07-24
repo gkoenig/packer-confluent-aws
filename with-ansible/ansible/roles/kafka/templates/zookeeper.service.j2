@@ -10,14 +10,12 @@ User=zookeeper
 SyslogIdentifier=zookeeper
 Restart=always
 RestartSec=0s
-Group=zookeeper
+Group=confluent
 Environment=CONFLUENT_HOME=/opt/confluent
 Environment="ZOO_LOG_DIR=/opt/zookeeper"
 Environment="KAFKA_OPTS=-javaagent:/opt/jolokia-jvm-{{ JOLOKIA_VERSION }}-agent.jar=port=7778,host=localhost"
 ExecStart=/opt/confluent/bin/zookeeper-server-start /etc/kafka/zookeeper.properties
-ExecStop=/opt/confluent/bin/zookeeper-server-stop
-ExecReload=/opt/confluent/bin/zookeeper-server-stop && /opt/confluent/bin/zookeeper-server-start /etc/kafka/zookeeper.properties
-WorkingDirectory=/opt/zookeeper
+KillMode=process
 
 [Install]
 WantedBy=multi-user.target

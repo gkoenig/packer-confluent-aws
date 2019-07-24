@@ -57,3 +57,10 @@
     owner: kafka
     group: confluent
     state: link 
+- name: create ZK data dir 
+  file:
+    path: /opt/zookeeper
+    state: directory
+    mode: 0755
+    owner: zookeeper
+    group: confluent
