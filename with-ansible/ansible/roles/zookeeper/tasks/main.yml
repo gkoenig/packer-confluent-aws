@@ -1,0 +1,46 @@
+---
+- name: Create group for Zookeeper
+  group:
+    name: "zookeeper"
+    state: present
+- name: Create user for Zookeeper
+  user:
+    name: "zookeeper"
+    state: present
+    shell: /bin/bash
+    groups: "zookeeper,confluent"
+
+- name: copying zk service script
+  template:
+    src: "zookeeper.service.j2"
+    dest: /etc/systemd/system/zookeeper.service
+    owner: zookeeper
+    group: confluent
+    mode: '0644'
+
+- name: create ZK data dir 
+  file:
+    path: {{ ZK_DATA_DIR }}
+    state: directory
+    mode: 0755
+    owner: zookeeper
+    group: confluent
+
+- name: copying zk config
+  template:
+    src: "zookeeper.properties.j2"
+    dest: /etc/kafka/zookeeper.properties
+    owner: zookeeper
+    group: confluent
+    mode: '0755'
+
+- name: enable services
+  systemd:
+      enabled: yes
+      name: "zookeeper"
+
+- name: start services
+  systemd:
+      state: restarted
+      daemon_reload: yes
+      name: "zookeeper"

@@ -1,41 +1,5 @@
 ---
-- name: Create group for Zookeeper and Kafka
-  group:
-    name: "{{ item.name }}"
-    state: present
-  with_items:
-    - { name: 'confluent' }
-    - { name: 'zookeeper' }
-    - { name: 'kafka'}
-- name: Create users Zookeeper and Kafka
-  user:
-    name: "{{ item.name }}"
-    state: present
-    shell: /bin/bash
-    groups: "{{ item.groups }}"
-  with_items:
-    - { name: 'confluent', groups: 'confluent'}
-    - { name: 'zookeeper', groups: 'zookeeper,confluent'}
-    - { name: 'kafka', groups: 'kafka,confluent'}
-- name: Download Apache Kafka
-  get_url:
-    url: http://packages.confluent.io/archive/{{ CONFLUENT_MAIN_VERSION }}/confluent-community-{{ CONFLUENT_VERSION }}-{{ CONFLUENT_SCALA_VERSION }}.tar.gz
-    dest: /tmp  
-- name: Unpack Apache Kafka
-  unarchive:
-    src: /tmp/confluent-community-{{ CONFLUENT_VERSION }}-{{ CONFLUENT_SCALA_VERSION }}.tar.gz
-    dest: /opt
-    mode: '755'
-    group: 'confluent'
-    owner: 'confluent'
-    remote_src: yes
-- name: copying zk service script
-  template:
-    src: "zookeeper.service.j2"
-    dest: /etc/systemd/system/zookeeper.service
-    owner: zookeeper
-    group: confluent
-    mode: '0644'
+
 - name: copying kafka service script
   template:
     src: "kafka.service.j2"
@@ -43,48 +7,19 @@
     owner: kafka
     group: confluent
     mode: '0644'
-- name: create link to confluent within opt
-  file:
-    src: /opt/confluent-{{ CONFLUENT_VERSION }}
-    dest: /opt/confluent
-    owner: kafka
-    group: confluent
-    state: link     
-- name: create link from etc to confluent
-  file:
-    src: /opt/confluent/etc/kafka
-    dest: /etc/kafka
-    owner: kafka
-    group: confluent
-    state: link 
-- name: create ZK data dir 
-  file:
-    path: /opt/zookeeper
-    state: directory
-    mode: 0755
-    owner: zookeeper
-    group: confluent
-- name: create logs dir 
-  file:
-    path: /opt/confluent/logs
-    state: directory
-    mode: 0777
-    owner: zookeeper
-    group: confluent
+
 - name: enable services
   systemd:
       enabled: yes
       name: "{{ item.name }}"
   with_items:
-    - { name: 'zookeeper' }
     - { name: 'kafka' }
-    - { name: 'telegraf' }
+    
 - name: start services
   systemd:
       state: restarted
       daemon_reload: yes
       name: "{{ item.name }}"
   with_items:
-    - { name: 'zookeeper' }
     - { name: 'kafka' }
-    - { name: 'telegraf' }
+    

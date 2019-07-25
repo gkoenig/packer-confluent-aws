@@ -27,3 +27,55 @@
     src: "awscli.conf.j2"
     dest: /etc/awslogs/awscli.conf
     mode: '0644'
+
+- name: Create groups
+  group:
+    name: "{{ item.name }}"
+    state: present
+  with_items:
+    - { name: 'confluent' }
+    - { name: 'kafka'}
+- name: Create users
+  user:
+    name: "{{ item.name }}"
+    state: present
+    shell: /bin/bash
+    groups: "{{ item.groups }}"
+  with_items:
+    - { name: 'confluent', groups: 'confluent'}
+    - { name: 'kafka', groups: 'kafka,confluent'}
+- name: Download Apache Kafka
+  get_url:
+    url: http://packages.confluent.io/archive/{{ CONFLUENT_MAIN_VERSION }}/confluent-community-{{ CONFLUENT_VERSION }}-{{ CONFLUENT_SCALA_VERSION }}.tar.gz
+    dest: /tmp  
+- name: Unpack Apache Kafka
+  unarchive:
+    src: /tmp/confluent-community-{{ CONFLUENT_VERSION }}-{{ CONFLUENT_SCALA_VERSION }}.tar.gz
+    dest: /opt
+    mode: '755'
+    group: 'confluent'
+    owner: 'confluent'
+    remote_src: yes
+- name: create link to confluent within opt
+  file:
+    src: /opt/confluent-{{ CONFLUENT_VERSION }}
+    dest: /opt/confluent
+    owner: kafka
+    group: confluent
+    state: link     
+- name: create link from etc to confluent
+  file:
+    src: /opt/confluent/etc/kafka
+    dest: /etc/kafka
+    owner: kafka
+    group: confluent
+    state: link 
+
+
+- name: create logs dir 
+  file:
+    path: /opt/confluent/logs
+    state: directory
+    mode: 0777
+    owner: kafka
+    group: confluent
