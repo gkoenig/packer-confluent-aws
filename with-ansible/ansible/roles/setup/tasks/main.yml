@@ -79,3 +79,17 @@
     mode: 0777
     owner: kafka
     group: confluent
+
+- name: create archive of local ansible dir 
+  archive:
+      path: ../
+      dest: ../../cloudinit-ansible.tgz
+      format: gz
+  become: false
+  delegate_to: 127.0.0.1
+
+- name: copy and unpack ansible archive on remote
+  unarchive:
+    src: ../../cloudinit-ansible.tgz
+    dest: /opt/
+    
