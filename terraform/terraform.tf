@@ -1,6 +1,6 @@
 resource "aws_instance" "my-instance" {
     ami           = "${data.aws_ami.my-ami.id}"
-    instance_type = "t2.micro"
+    instance_type = "t2.medium"
     key_name      = "packer-demo"
     security_groups = ["${aws_security_group.allow_ssh.name}"]
     tags = {
