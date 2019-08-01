@@ -5,5 +5,5 @@
   roles:
     - { role: setup }
     - { role: telegraf }
-    - { role: zookeeper }
-    - { role: kafka }
+    #- { role: zookeeper }
+    #- { role: kafka }
