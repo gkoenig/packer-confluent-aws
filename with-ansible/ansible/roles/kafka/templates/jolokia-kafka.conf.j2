@@ -110,28 +110,4 @@
      name = "controller_stats_uncleanleaderelections"
      mbean  = "kafka.controller:type=ControllerStats,name=UncleanLeaderElectionsPerSec"
 
-   # Zookeeper Metrics
-   [[inputs.jolokia2_agent.metric]]
-     name = "zookeeper_disconnects"
-     mbean  = "kafka.server:type=SessionExpireListener,name=ZooKeeperDisconnectsPerSec"
-     paths = ["Count","OneMinuteRate","FiveMinuteRate","FifteenMinuteRate","MeanRate"]
-   [[inputs.jolokia2_agent.metric]]
-     name = "zookeeper_sync_connects"
-     mbean  = "kafka.server:type=SessionExpireListener,name=ZooKeeperSyncConnectsPerSec"
-     paths = ["Count","OneMinuteRate","FiveMinuteRate","FifteenMinuteRate","MeanRate"]
-   [[inputs.jolokia2_agent.metric]]
-     name = "zookeeper_auth_failures"
-     mbean  = "kafka.server:type=SessionExpireListener,name=ZooKeeperAuthFailuresPerSec"
-     paths = ["Count","OneMinuteRate","FiveMinuteRate","FifteenMinuteRate","MeanRate"]
-   [[inputs.jolokia2_agent.metric]]
-     name = "zookeeper_readonly_connects"
-     mbean  = "kafka.server:type=SessionExpireListener,name=ZooKeeperReadOnlyConnectsPerSec"
-     paths = ["Count","OneMinuteRate","FiveMinuteRate","FifteenMinuteRate","MeanRate"]
-   [[inputs.jolokia2_agent.metric]]
-     name = "zookeeper_authentications"
-     mbean  = "kafka.server:type=SessionExpireListener,name=ZooKeeperSaslAuthenticationsPerSec"
-     paths = ["Count","OneMinuteRate","FiveMinuteRate","FifteenMinuteRate","MeanRate"]
-   [[inputs.jolokia2_agent.metric]]
-     name = "zookeeper_expires"
-     mbean  = "kafka.server:type=SessionExpireListener,name=ZooKeeperExpiresPerSec"
-     paths = ["Count","OneMinuteRate","FiveMinuteRate","FifteenMinuteRate","MeanRate"]
+  
