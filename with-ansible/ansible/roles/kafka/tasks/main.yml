@@ -8,6 +8,12 @@
     group: confluent
     mode: '0644'
 
+- name: set Telegraf Jolokia config 
+  template:
+    src: "jolokia-kafka.conf.j2"
+    dest: /etc/telegraf/telegraf.d/jolokia-kafka.conf
+    mode: '0755'
+
 - name: enable services
   systemd:
       enabled: yes
@@ -22,4 +28,5 @@
       name: "{{ item.name }}"
   with_items:
     - { name: 'kafka' }
+    - { name: 'telegraf' }
     

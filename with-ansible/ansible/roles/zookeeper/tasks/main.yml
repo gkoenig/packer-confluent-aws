@@ -34,12 +34,23 @@
     group: confluent
     mode: '0755'
 
+- name: set Telegraf Jolokia config 
+  template:
+    src: "jolokia-zookeeper.conf.j2"
+    dest: /etc/telegraf/telegraf.d/jolokia-zookeeper.conf
+    mode: '0755'
+
 - name: enable services
   systemd:
       enabled: yes
       name: "zookeeper"
 
-- name: start services
+- name: start Zookeeper
+  systemd:
+      state: restarted
+      daemon_reload: yes
+      name: "zookeeper"
+- name: start Telegraf
   systemd:
       state: restarted
       daemon_reload: yes

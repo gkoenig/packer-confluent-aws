@@ -16,8 +16,3 @@
     dest: "/etc/telegraf/telegraf.conf"
     mode: 0644
 
-- name: set Telegraf Jolokia config 
-  template:
-    src: "jolokia-kafka.conf.j2"
-    dest: /etc/telegraf/telegraf.d/jolokia-kafka.conf
-    mode: '0755'
