@@ -16,6 +16,7 @@
     - iproute
     - python2-boto3
     - awslogs
+    - jq
 
 - name: copy Jolokia JVM agent
   copy:

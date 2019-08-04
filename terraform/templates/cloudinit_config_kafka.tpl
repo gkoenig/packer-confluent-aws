@@ -5,16 +5,17 @@ set -e
 echo ${zookeeper_ips} >> /tmp/app.txt
 echo ${hosted_zone_id} >> /tmp/app.txt
 echo ${hosted_zone_name} >> /tmp/app.txt
-
+echo ${region} >> /tmp/app.txt
 
 function update_kafka_dns() {    
     # get availability zone: eg. ap-southeast-2a
     az=$(curl http://169.254.169.254/latest/meta-data/placement/availability-zone)
     echo $az >> /tmp/app.txt
 
-    # get number from az tail value. ap-southeast-2a => a => 1
-    launch_index=$(echo -n $az | tail -c 1 | tr abcdef 123456)
-    
+    # get ID tag to set broker-id
+    INSTANCEID=$(ec2-metadata | grep instance-id | awk '{print $2}')
+    launch_index=$(aws ec2 describe-tags --filters "Name=resource-id,Values=$INSTANCEID" "Name=key,Values=ID" --region "${region}" --out=json|jq '.Tags[]| select(.Key == "ID")|.Value')
+    echo $launch_index >> /tmp/app.txt
     private_ip=$(curl "http://169.254.169.254/latest/meta-data/local-ipv4")
     echo $private_ip >> /tmp/app.txt
 

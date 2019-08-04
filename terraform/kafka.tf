@@ -65,7 +65,8 @@ data "template_file" "kafka" {
     vars = {
         zookeeper_ips = "${join(":2181,", aws_instance.zookeeper.*.private_ip)}:2181",
         hosted_zone_id = "Z10VIVBOC4RQJK",
-        hosted_zone_name = "scigility.net"
+        hosted_zone_name = "scigility.net",
+        region = var.aws_region
     }
 }
 
