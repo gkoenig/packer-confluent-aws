@@ -45,18 +45,12 @@
     dest: /etc/telegraf/telegraf.conf
     mode: '0755'
 
-- name: enable services
+- name: enable and start services
   systemd:
+      state: restarted
+      daemon_reload: yes
       enabled: yes
-      name: "zookeeper"
-
-- name: start Zookeeper
-  systemd:
-      state: restarted
-      daemon_reload: yes
-      name: "zookeeper"
-- name: start Telegraf
-  systemd:
-      state: restarted
-      daemon_reload: yes
-      name: "zookeeper"
+      name: "{{ item.name }}"
+  with_items:
+    - { name: 'zookeeper' }
+    - { name: 'telegraf' }
