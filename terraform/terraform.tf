@@ -134,6 +134,7 @@ data "aws_iam_policy_document" "policydoc" {
         actions = [
             "ec2:*",
             "cloudwatch:*",
+            "route53:*"
         ]
         resources = [ "*" ]
     }
