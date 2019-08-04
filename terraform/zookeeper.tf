@@ -20,7 +20,6 @@ resource "aws_instance" "zookeeper" {
 }
 
 data "template_file" "zookeeper" {
-    #template = file("$({path.module}/templates/cloudinit_zookeeper.tpl)")
     template = file("./templates/cloudinit_zookeeper.tpl")
     vars = {
         clustername = "confluentdemo"
