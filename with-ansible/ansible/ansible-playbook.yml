@@ -6,4 +6,4 @@
     - { role: setup }
     - { role: telegraf }
     #- { role: zookeeper }
-    #- { role: kafka }
+    - { role: kafka }

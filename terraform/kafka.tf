@@ -23,8 +23,8 @@ resource "aws_autoscaling_group" "kafka" {
             propagate_at_launch = true
         }
     tag {
-            key                 = "ID"
-            value               = "${count.index + 1}"
+            key="ID"
+            value = "${count.index + 1}"
             propagate_at_launch = true
         }
     tag {
@@ -61,10 +61,11 @@ resource "aws_launch_configuration" "kafka" {
 }
 
 data "template_file" "kafka" {
-    template = file("./templates/cloudinit_kafka.tpl")
+    template = file("./templates/cloudinit_config_kafka.tpl")
     vars = {
-        clustername = "confluentdemo"
-        zookeeper_count = var.no_of_zk_instances
+        zookeeper_ips = "${join(":2181,", aws_instance.zookeeper.*.private_ip)}:2181",
+        hosted_zone_id = "Z10VIVBOC4RQJK",
+        hosted_zone_name = "scigility.net"
     }
 }
 
