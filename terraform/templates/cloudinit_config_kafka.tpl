@@ -13,8 +13,9 @@ function update_kafka_dns() {
     echo $az >> /tmp/app.txt
 
     # get ID tag to set broker-id
-    INSTANCEID=$(ec2-metadata | grep instance-id | awk '{print $2}')
-    launch_index=$(aws ec2 describe-tags --filters "Name=resource-id,Values=$INSTANCEID" "Name=key,Values=ID" --region "${region}" --out=json|jq '.Tags[]| select(.Key == "ID")|.Value')
+    INSTANCEID=$(ec2-metadata | grep -e '^instance-id' | awk '{print $2}')
+    echo $INSTANCEID >> /tmp/app.txt
+    launch_index=$(aws ec2 describe-tags --filters Name=resource-id,Values=$INSTANCEID Name=key,Values=ID --region "${region}" --out=json | jq -r '.Tags[]| select(.Key == "ID")|.Value')
     echo $launch_index >> /tmp/app.txt
     private_ip=$(curl "http://169.254.169.254/latest/meta-data/local-ipv4")
     echo $private_ip >> /tmp/app.txt
@@ -43,6 +44,9 @@ function update_kafka_dns() {
     aws route53 change-resource-record-sets --hosted-zone-id ${hosted_zone_id} --change-batch file://$tmp_file_name
 
     sed -i "s#broker.id=0#broker.id=$launch_index#g" /etc/kafka/server.properties
+
+    # set hostname
+    hostnamectl set-hostname kafka$launch_index.${hosted_zone_name}
 }
 
 function update_configurations() {
@@ -57,4 +61,7 @@ sleep 10
 /opt/confluent/bin/kafka-topics --bootstrap-server localhost:9092 --create --topic test-r2p1 --partitions 1 --replication-factor 2 --config retention.ms=1000000
 /opt/confluent/bin/kafka-topics --bootstrap-server localhost:9092 --create --topic test-r2p6 --partitions 6 --replication-factor 2 --config retention.ms=1000000
 /opt/confluent/bin/kafka-topics --bootstrap-server localhost:9092 --create --topic test-r3p3 --partitions 3 --replication-factor 3 --config retention.ms=1000000
+
+sleep 10
+reboot
 
