@@ -14,6 +14,12 @@
     dest: /etc/telegraf/telegraf.d/jolokia-kafka.conf
     mode: '0755'
 
+- name: set Telegraf config 
+  template:
+    src: "telegraf.conf.j2"
+    dest: /etc/telegraf/telegraf.conf
+    mode: '0755'
+
 - name: enable services
   systemd:
       enabled: yes
