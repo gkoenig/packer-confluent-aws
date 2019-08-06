@@ -7,7 +7,7 @@ variable "no_of_kafka_instances" {
 }
 
 variable "aws_region" {
-    default="eu-central-1a"
+    default="eu-central-1"
 }
 
 variable "subnets" {
