@@ -56,7 +56,6 @@ function update_configurations() {
 
 update_kafka_dns
 update_configurations
-systemctl restart kafka
 
 reboot
 
