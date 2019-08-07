@@ -81,6 +81,15 @@
     owner: kafka
     group: confluent
 
+- name: create kafka data dir 
+  file:
+    path: {{ KAFKA_DATA_DIR }}
+    state: directory
+    mode: 0755
+    owner: kafka
+    group: confluent
+
+
 - name: create archive of local ansible dir 
   archive:
       path: ../
