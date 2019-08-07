@@ -57,11 +57,6 @@ function update_configurations() {
 update_kafka_dns
 update_configurations
 systemctl restart kafka
-sleep 10
-/opt/confluent/bin/kafka-topics --bootstrap-server localhost:9092 --create --topic test-r2p1 --partitions 1 --replication-factor 2 --config retention.ms=1000000
-/opt/confluent/bin/kafka-topics --bootstrap-server localhost:9092 --create --topic test-r2p6 --partitions 6 --replication-factor 2 --config retention.ms=1000000
-/opt/confluent/bin/kafka-topics --bootstrap-server localhost:9092 --create --topic test-r3p3 --partitions 3 --replication-factor 3 --config retention.ms=1000000
 
-sleep 10
 reboot
 
