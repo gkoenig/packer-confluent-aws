@@ -20,19 +20,11 @@
     dest: /etc/telegraf/telegraf.conf
     mode: '0755'
 
-- name: enable services
+- name: enable service
   systemd:
       enabled: yes
       name: "{{ item.name }}"
   with_items:
     - { name: 'kafka' }
     
-- name: start services
-  systemd:
-      state: restarted
-      daemon_reload: yes
-      name: "{{ item.name }}"
-  with_items:
-    - { name: 'kafka' }
-    - { name: 'telegraf' }
     

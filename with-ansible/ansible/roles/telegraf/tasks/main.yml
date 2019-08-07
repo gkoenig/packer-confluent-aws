@@ -16,3 +16,9 @@
     dest: "/etc/telegraf/telegraf.conf"
     mode: 0644
 
+- name: enable service
+  systemd:
+      enabled: yes
+      name: "{{ item.name }}"
+  with_items:
+    - { name: 'telegraf' }
