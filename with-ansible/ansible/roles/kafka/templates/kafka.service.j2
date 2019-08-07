@@ -12,8 +12,7 @@ Environment=JAVA_HOME=/etc/alternatives/jre
 Environment=CONFLUENT_HOME=/opt/confluent
 Environment="KAFKA_HEAP_OPTS=-Xms256M -Xmx768M"
 Environment="KAFKA_LOGS_DIR=/opt/kafka"
-Environment="KAFKA_OPTS=-javaagent:/opt/jolokia-jvm-{{ JOLOKIA_VERSION }}-agent.jar=port=7777,host=localhost"
-Environment="KAFKA_OPTS=-Djava.net.preferIPv4Stack=True"
+Environment="KAFKA_OPTS=-javaagent:/opt/jolokia-jvm-{{ JOLOKIA_VERSION }}-agent.jar=port=7777,host=localhost -Djava.net.preferIPv4Stack=True"
 ExecStart=/opt/confluent/bin/kafka-server-start /etc/kafka/server.properties
 ExecStop=/opt/confluent/bin/kafka-server-stop
 KillMode=process
