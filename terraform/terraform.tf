@@ -134,7 +134,10 @@ data "aws_iam_policy_document" "policydoc" {
         actions = [
             "ec2:*",
             "cloudwatch:*",
-            "route53:*"
+            "route53:*",
+            "logs:PutLogEvents",
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream"
         ]
         resources = [ "*" ]
     }
