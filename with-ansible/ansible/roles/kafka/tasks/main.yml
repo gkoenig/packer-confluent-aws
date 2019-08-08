@@ -20,6 +20,18 @@
     dest: /etc/telegraf/telegraf.conf
     mode: '0755'
 
+- name: set Kafka broker config 
+  template:
+    src: "server.properties.j2"
+    dest: /etc/kafka/server.properties
+    mode: '0755'
+
+- name: copy awslogs conf
+  copy:
+    src: awslogs.conf
+    dest: "/etc/awslogs/awslogs.conf"
+    mode: 0644
+
 - name: enable service
   systemd:
       enabled: yes
