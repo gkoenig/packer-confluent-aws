@@ -83,7 +83,7 @@
 
 - name: create kafka data dir 
   file:
-    path: {{ KAFKA_DATA_DIR }}
+    path: "{{ KAFKA_DATA_DIR }}"
     state: directory
     mode: 0755
     owner: kafka
@@ -102,4 +102,12 @@
   unarchive:
     src: ../../cloudinit-ansible.tgz
     dest: /opt/
+
+- name: enable service awslogsd
+  systemd:
+      enabled: yes
+      name: "{{ item.name }}"
+  with_items:
+    - { name: 'awslogsd' }
+    
     
