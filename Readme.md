@@ -37,3 +37,30 @@ to further config your final operating system, check [setup.sh](./scripts/setup)
 * os packages to be installed
 * start services by default
 * ...whatever you'd like to be baken into the AMI from OS point of view
+
+
+# Create some dummy data and check metrics
+
+Kafka metrics are being pushed to Cloudwatch via _dataflow_ :
+```
+Kafka broker ==> Jolokia JMX exporter (broker local port 7777)  <== Telegraf collects metrics from Jolokia ==> push to AWS Cloudwatch
+```
+### Create some topics
+...and set retention time to a very low value, to ensure that data is purged fast to avoid _disk full_ situations
+
+* topic with replication *1* and partitions *1* : 
+  ```/opt/confluent/bin/kafka-topics --bootstrap-server kafka1.scigility.net:9092 --create --topic r1-p1 --partitions 1 --replication-factor 1 --config retention.ms=10000```
+
+* topic with replication *1* and partitions *6* : 
+  ```/opt/confluent/bin/kafka-topics --bootstrap-server kafka1.scigility.net:9092 --create --topic r1-p6 --partitions 6 --replication-factor 1 --config retention.ms=10000```
+
+* topic with replication *3* and partitions *3* : 
+  ```/opt/confluent/bin/kafka-topics --bootstrap-server kafka1.scigility.net:9092 --create --topic r3-p3 --partitions 3 --replication-factor 3 --config retention.ms=1000```
+
+### Create some dummy data to see the metrics charts _in action_. Login to one of the Kafka broker hosts and execute:
+* Write to topic which has only 1 partition (hence only one broker gets data)  
+```/opt/confluent/bin/kafka-producer-perf-test --producer-props bootstrap.servers=kafka1.scigility.net:9092 --topic r1-p1 --num-records 10000000 --record-size 1024 --throughput 10000```
+
+* Write to topic with 3 replication&partitions, unlimited throughput, so that all brokers receive data  
+```/opt/confluent/bin/kafka-producer-perf-test --producer-props bootstrap.servers=kafka1.scigility.net:9092 --topic r3-p3 --num-records 1000000 --record-size 1024 --throughput -1```
+
