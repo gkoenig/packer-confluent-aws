@@ -91,9 +91,9 @@
 #                            OUTPUT PLUGINS                                   #
 ###############################################################################
 # # Configuration for AWS CloudWatch output.
- [[outputs.cloudwatch]]
+# [[outputs.cloudwatch]]
 #   ## Amazon REGION
-   region = "{{ AWS_REGION }}"
+#   region = "{{ AWS_REGION }}"
 #
 #   ## Amazon Credentials
 #   ## Credentials are loaded in the following order
@@ -117,7 +117,7 @@
 #   # endpoint_url = ""
 #
    ## Namespace for the CloudWatch MetricDatums
-   namespace = "InfluxData/Telegraf"
+#   namespace = "InfluxData/Telegraf"
 #
 #   ## If you have a large amount of metrics, you should consider to send statistic
 #   ## values instead of raw metrics which could not only improve performance but
